@@ -96,6 +96,14 @@
 // On Windows you may use vcpkg with 'vcpkg install freetype --triplet=x64-windows' + 'vcpkg integrate install'.
 #define IMGUI_ENABLE_FREETYPE
 
+// imgui_internal.h unconditionally defines IMGUI_ENABLE_STB_TRUETYPE unless
+// FreeType is enabled. That define arrives after this file is processed, so
+// it re-enables the stb_truetype code path (and the embedded compressed-font
+// decompressor) unless we explicitly clear it here. Undefining it here is
+// sufficient because imconfig.h is included before imgui_internal.h in every
+// translation unit that uses Dear ImGui through V4D.
+#undef IMGUI_ENABLE_STB_TRUETYPE
+
 //---- Use FreeType + plutosvg or lunasvg to render OpenType SVG fonts (SVGinOT)
 // Only works in combination with IMGUI_ENABLE_FREETYPE.
 // - plutosvg is currently easier to install, as e.g. it is part of vcpkg. It will support more fonts and may load them faster. See misc/freetype/README for instructions.
